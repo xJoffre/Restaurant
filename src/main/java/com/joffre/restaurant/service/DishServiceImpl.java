@@ -1,5 +1,6 @@
 package com.joffre.restaurant.service;
 
+import com.joffre.restaurant.exception.ResourceNotFoundException;
 import com.joffre.restaurant.model.Dish;
 import com.joffre.restaurant.repository.DishRepository;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,7 @@ public class DishServiceImpl implements DishService{
     @Override
     public Dish findById(Long id) {
         return dishRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Dish not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Dish not found with id " + id));
     }
 
     @Override

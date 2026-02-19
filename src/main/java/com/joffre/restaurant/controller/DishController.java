@@ -1,5 +1,7 @@
 package com.joffre.restaurant.controller;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,18 +28,19 @@ public class DishController {
     }
 
     @GetMapping
-    public List<Dish> getAllDishes() {
-        return dishService.findAll();
+    public ResponseEntity<List<Dish>> getAll() {
+        return ResponseEntity.ok(dishService.findAll());
     }
 
     @PostMapping
-    public Dish createDish(@RequestBody Dish dish) {
-        return dishService.save(dish);
+    public ResponseEntity<Dish> create(@RequestBody Dish dish) {
+        Dish saved = dishService.save(dish);
+        return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
 
     @GetMapping("/{id}")
-    public Dish getDishById(@PathVariable Long id) {
-        return dishService.findById(id);
+    public ResponseEntity<Dish> getById(@PathVariable Long id) {
+        return ResponseEntity.ok(dishService.findById(id));
     }
 
     @PutMapping("/{id}")
@@ -55,8 +58,9 @@ public class DishController {
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         dishService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 
 }
